@@ -17,5 +17,22 @@ export default {
         },
       },
     },
+    screens: {
+      sm: "480px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
+    },
+    colors: {
+      "white": "#FFFFFF",
+      "red": "#F7313F",
+      "blue": "#OCB92E",
+      "yellow": "#FFD72E",
+      "gray-1": "#2D2D2C",
+    },
+    fontFamily: {
+      sans: ["Graphik", "sans-serif"],
+      serif: ["Merriweather", "serif"],
+    },
   },
 };

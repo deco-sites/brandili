@@ -75,7 +75,7 @@ function Searchbar({
 
   return (
     <div
-      class="w-full grid gap-8 px-4 py-6 overflow-y-hidden"
+      class="w-full grid gap-8 px-4 py-6 overflow-y-hidden relative"
       style={{ gridTemplateRows: "min-content auto" }}
     >
       <form id={id} action={action} class="join">
@@ -114,20 +114,14 @@ function Searchbar({
           aria-expanded={displaySearchPopup.value}
           autocomplete="off"
         />
-        <Button
-          type="button"
-          class="join-item btn-ghost btn-square hidden sm:inline-flex"
-          onClick={() => displaySearchPopup.value = false}
-          ariaLabel={displaySearchPopup.value ? "open search" : "search closed"}
-        >
-          <Icon id="XMark" size={24} strokeWidth={2} />
-        </Button>
       </form>
 
       <div
-        class={`overflow-y-scroll ${!hasProducts && !hasTerms ? "hidden" : ""}`}
+        class={`overflow-y-scroll left-0 top-10 ${
+          !hasProducts && !hasTerms ? "hidden" : ""
+        }`}
       >
-        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-[150px_1fr]">
+        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-1fr absolute bg-white">
           <div class="flex flex-col gap-6">
             <span
               class="font-medium text-xl"
@@ -165,7 +159,7 @@ function Searchbar({
               {products.map((product, index) => (
                 <Slider.Item
                   index={index}
-                  class="carousel-item first:ml-4 last:mr-4 min-w-[200px] max-w-[200px]"
+                  class=" first:ml-4 last:mr-4 min-w-[200px] max-w-[200px]"
                 >
                   <ProductCard
                     product={product}
