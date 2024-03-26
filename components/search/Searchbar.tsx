@@ -52,6 +52,26 @@ export interface Props {
   platform?: Platform;
 }
 
+export const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [callback]);
+
+  return ref;
+};
+
 function Searchbar({
   placeholder = "What are you looking for?",
   action = "/s",
@@ -68,15 +88,21 @@ function Searchbar({
   const hasTerms = Boolean(searches.length);
 
   useEffect(() => {
-    if (displaySearchPopup.value === true) {
-      searchInputRef.current?.focus();
+    if (!searchInputRef.current) {
+      return;
     }
-  }, [displaySearchPopup.value]);
+    searchInputRef.current.focus();
+  }, []);
+
+  const refDiv = useOutsideClick(() => {
+    displaySearchPopup.value = false;
+  });
 
   return (
     <div
-      class="w-full grid gap-8 px-4 py-6 overflow-y-hidden relative"
+      class="w-full flex flex-col align items-center px-4 overflow-y-hidden"
       style={{ gridTemplateRows: "min-content auto" }}
+      ref={refDiv}
     >
       <form id={id} action={action} class="join">
         <Button
@@ -117,11 +143,11 @@ function Searchbar({
       </form>
 
       <div
-        class={`overflow-y-scroll left-0 top-10 ${
+        class={`overflow-y-scroll absolute ${
           !hasProducts && !hasTerms ? "hidden" : ""
         }`}
       >
-        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-1fr absolute bg-white">
+        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-1fr bg-bwhite top-10">
           <div class="flex flex-col gap-6">
             <span
               class="font-medium text-xl"

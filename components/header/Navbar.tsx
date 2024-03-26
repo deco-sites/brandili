@@ -33,7 +33,7 @@ function Navbar(
     return (
       <div
         style={{ height: navbarHeight }}
-        class="lg:hidden grid grid-cols-3 justify-between items-center border-b border-base-200 w-full px-6 pb-6 gap-2"
+        class="lg:hidden grid grid-cols-3 justify-between items-center border-b border-base-200 w-full px-6 pb-6 gap-2 mobile"
       >
         <MenuButton />
         {logo && (
@@ -67,14 +67,7 @@ function Navbar(
 
   // Desktop header
   return (
-    <div class="hidden sm:grid sm:grid-cols-3 items-center border-b border-base-200 w-full px-6">
-      <ul
-        class={`flex gap-6 col-span-1 ${
-          logoPosition === "left" ? "justify-center" : "justify-start"
-        }`}
-      >
-        {items.map((item) => <NavItem item={item} />)}
-      </ul>
+    <div class="hidden sm:flex justify-between items-center w-full max-w-screen-xl px-6 mx-auto">
       <div
         class={`flex ${
           logoPosition === "left" ? "justify-start -order-1" : "justify-center"
@@ -95,6 +88,13 @@ function Navbar(
           </a>
         )}
       </div>
+      <ul
+        class={`flex gap-6 col-span-1 ${
+          logoPosition === "left" ? "justify-center" : "justify-start"
+        }`}
+      >
+        {items.map((item) => <NavItem item={item} />)}
+      </ul>
       <div class="flex-none flex items-center justify-end gap-6 col-span-1">
         {!buttons?.hideSearchButton && (
           <div class="flex items-center text-xs font-thin gap-1">
