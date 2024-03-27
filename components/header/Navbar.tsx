@@ -61,6 +61,7 @@ function Navbar(
           {platform === "shopify" && <CartButtonShopify />}
           {platform === "nuvemshop" && <CartButtonNuvemshop />}
         </div>
+        <Searchbar searchbar={searchbar} />
       </div>
     );
   }

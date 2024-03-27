@@ -11,7 +11,11 @@ function SearchbarModal({ searchbar }: Props) {
     return null;
   }
 
-  return <Searchbar {...searchbar} />;
+  return (
+    <div loading="lazy">
+      <Searchbar {...searchbar} />
+    </div>
+  );
 }
 
 export default SearchbarModal;

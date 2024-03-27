@@ -19,7 +19,7 @@ import { useSuggestions } from "../../sdk/useSuggestions.ts";
 import { useUI } from "../../sdk/useUI.ts";
 import { Suggestion } from "apps/commerce/types.ts";
 import { Resolved } from "deco/engine/core/resolver.ts";
-import { useEffect, useRef } from "preact/compat";
+import { useEffect, useRef, useState } from "preact/compat";
 import type { Platform } from "../../apps/site.ts";
 
 // Editable props
@@ -52,26 +52,6 @@ export interface Props {
   platform?: Platform;
 }
 
-export const useOutsideClick = (callback: () => void) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [callback]);
-
-  return ref;
-};
-
 function Searchbar({
   placeholder = "What are you looking for?",
   action = "/s",
@@ -82,27 +62,31 @@ function Searchbar({
   const id = useId();
   const { displaySearchPopup } = useUI();
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState("");
   const { setQuery, payload, loading } = useSuggestions(loader);
   const { products = [], searches = [] } = payload.value ?? {};
   const hasProducts = Boolean(products.length);
   const hasTerms = Boolean(searches.length);
+  console.log(
+    "hasProducts",
+    hasProducts,
+    "hasTerms",
+    hasTerms,
+    "inputValue",
+    inputValue,
+    inputValue?.length
+  );
 
   useEffect(() => {
     if (!searchInputRef.current) {
       return;
     }
-    searchInputRef.current.focus();
   }, []);
-
-  const refDiv = useOutsideClick(() => {
-    displaySearchPopup.value = false;
-  });
 
   return (
     <div
       class="w-full flex flex-col align items-center px-4 overflow-y-hidden"
       style={{ gridTemplateRows: "min-content auto" }}
-      ref={refDiv}
     >
       <form id={id} action={action} class="join">
         <Button
@@ -112,9 +96,11 @@ function Searchbar({
           for={id}
           tabIndex={-1}
         >
-          {loading.value
-            ? <span class="loading loading-spinner loading-xs" />
-            : <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />}
+          {loading.value ? (
+            <span class="loading loading-spinner loading-xs" />
+          ) : (
+            <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />
+          )}
         </Button>
         <input
           ref={searchInputRef}
@@ -132,6 +118,7 @@ function Searchbar({
             }
 
             setQuery(value);
+            setInputValue(value);
           }}
           placeholder={placeholder}
           role="combobox"
@@ -140,20 +127,33 @@ function Searchbar({
           aria-expanded={displaySearchPopup.value}
           autocomplete="off"
         />
+        <Button
+          type="button"
+          class="join-item btn-ghost btn-square hidden sm:inline-flex"
+          onClick={() => {
+            const input = document.querySelector("#search-input") as HTMLInputElement;
+            input.value = "";
+            document.querySelector("#intelSearch-list")?.classList.add("hidden");
+          }}
+          ariaLabel={displaySearchPopup.value ? "open search" : "search closed"}
+        >
+          <Icon id="XMark" size={24} strokeWidth={2} />
+        </Button>
       </form>
 
       <div
-        class={`overflow-y-scroll absolute ${
-          !hasProducts && !hasTerms ? "hidden" : ""
+        id="intelSearch-list"
+        class={`overflow-y-scroll absolute top-24 ${
+          (!hasProducts && !hasTerms && !inputValue.length) ||
+          (!inputValue.length && hasProducts) ||
+          (!inputValue.length && hasTerms)
+            ? "hidden"
+            : ""
         }`}
       >
-        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-1fr bg-bwhite top-10">
+        <div class="gap-4 grid grid-cols-1 sm:grid-rows-1 sm:grid-cols-1fr bg-bwhite">
           <div class="flex flex-col gap-6">
-            <span
-              class="font-medium text-xl"
-              role="heading"
-              aria-level={3}
-            >
+            <span class="font-medium text-xl" role="heading" aria-level={3}>
               Sugestões
             </span>
             <ul id="search-suggestion" class="flex flex-col gap-6">
@@ -161,11 +161,7 @@ function Searchbar({
                 <li>
                   <a href={`/s?q=${term}`} class="flex gap-4 items-center">
                     <span>
-                      <Icon
-                        id="MagnifyingGlass"
-                        size={24}
-                        strokeWidth={0.01}
-                      />
+                      <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />
                     </span>
                     <span dangerouslySetInnerHTML={{ __html: term }} />
                   </a>
@@ -174,11 +170,7 @@ function Searchbar({
             </ul>
           </div>
           <div class="flex flex-col pt-6 md:pt-0 gap-6 overflow-x-hidden">
-            <span
-              class="font-medium text-xl"
-              role="heading"
-              aria-level={3}
-            >
+            <span class="font-medium text-xl" role="heading" aria-level={3}>
               Produtos sugeridos
             </span>
             <Slider class="carousel">

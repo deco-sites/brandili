@@ -76,15 +76,13 @@ function Header({
   ],
   topBar = {
     logoMundi: {
-      src:
-        "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
+      src: "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
       width: 100,
       height: 16,
       alt: "Logo",
     },
     logoBrandili: {
-      src:
-        "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
+      src: "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
       width: 100,
       height: 16,
       alt: "Logo",
@@ -92,8 +90,7 @@ function Header({
     bgColor: "bg-bred",
   },
   logo = {
-    src:
-      "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
+    src: "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/2291/986b61d4-3847-4867-93c8-b550cb459cc7",
     width: 100,
     height: 16,
     alt: "Logo",
@@ -108,26 +105,25 @@ function Header({
   return (
     <>
       <header style={{ height: headerHeight }}>
-        <Drawers menu={{ items }} searchbar={searchbar} platform={platform}>
-          <div class="bg-base-100 fixed w-full z-50 rounded-b-2xl shadow-blg">
-            <div>
-              <TopBar
-                device={device}
-                logoBrandili={topBar?.logoBrandili}
-                logoMundi={topBar?.logoMundi}
-                bgColor={topBar?.bgColor}
-              />
-              <Navbar
-                device={device}
-                items={items}
-                searchbar={searchbar && { ...searchbar, platform }}
-                logo={logo}
-                logoPosition={logoPosition}
-                buttons={buttons}
-              />
-            </div>
+        <Drawers menu={{ items }} searchbar={searchbar} platform={platform} />
+        <div class="bg-base-100 fixed w-full z-50 rounded-b-2xl shadow-blg">
+          <div>
+            <TopBar
+              device={device}
+              logoBrandili={topBar?.logoBrandili}
+              logoMundi={topBar?.logoMundi}
+              bgColor={topBar?.bgColor}
+            />
+            <Navbar
+              device={device}
+              items={items}
+              searchbar={searchbar && { ...searchbar, platform }}
+              logo={logo}
+              logoPosition={logoPosition}
+              buttons={buttons}
+            />
           </div>
-        </Drawers>
+        </div>
       </header>
     </>
   );
