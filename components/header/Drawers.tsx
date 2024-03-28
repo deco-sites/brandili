@@ -8,6 +8,7 @@ import { useUI } from "../../sdk/useUI.ts";
 import { usePlatform } from "../../sdk/usePlatform.tsx";
 import type { ComponentChildren } from "preact";
 import { lazy, Suspense } from "preact/compat";
+// import { headerHeightMobile } from "./constants.ts";
 
 const Menu = lazy(() => import("../../components/header/Menu.tsx"));
 const Searchbar = lazy(() => import("../../components/search/Searchbar.tsx"));
@@ -73,7 +74,7 @@ function Drawers({ menu, searchbar, children, platform }: Props) {
           >
             {displayMenu.value && <Menu {...menu} />}
             {searchbar && displaySearchDrawer.value && (
-              <div class="w-screen">
+              <div class="w-screen relative" >
                 <Searchbar {...searchbar} />
               </div>
             )}

@@ -124,14 +124,16 @@ function ProductCardSearchBar({
             aria-label="view product"
             class="grid grid-cols-1 grid-rows-1 w-full"
           >
-            {l?.hide?.productName ? (
-              ""
-            ) : (
-              <h2
-                class="truncate text-base lg:text-lg text-base-content capitalize font-normal"
-                dangerouslySetInnerHTML={{ __html: name ?? "" }}
-              />
-            )}
+            {l?.hide?.productName
+              ? (
+                ""
+              )
+              : (
+                <h2
+                  class="truncate text-base lg:text-lg text-base-content capitalize font-normal"
+                  dangerouslySetInnerHTML={{ __html: name ?? "" }}
+                />
+              )}
           </a>
         </div>
       </div>

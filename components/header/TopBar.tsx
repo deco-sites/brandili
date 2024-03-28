@@ -12,16 +12,15 @@ function TopBar({
   logoBrandili?: Logo;
   logoMundi?: Logo;
   device: "mobile" | "desktop" | "tablet";
-  bgColor?: "bg-bred" | "bg-bgold";
+  bgColor?: "bg-bred" | "bg-bgold-2";
 }) {
   // Mobile header
   if (device === "mobile") {
     return (
       <div
-        style={{ height: navbarHeight }}
         class={`${
           bgColor ?? "bg-bred"
-        } lg:hidden grid grid-cols-3 justify-between items-center w-full px-6 pb-6 gap-2`}
+        } lg:hidden grid grid-cols-3 justify-between items-center w-full gap-2`}
       >
         {logoBrandili && (
           <a
@@ -44,7 +43,7 @@ function TopBar({
             href="/mundi"
             aria-label="Mundi logo"
             className={`block  px-2.5 py-1.5  ${
-              bgColor === "bg-bgold" ? "bg-bwhite" : "opacity-50 "
+              bgColor === "bg-bgold-2" ? "bg-bwhite" : "opacity-50 "
             }`}
           >
             <Image
@@ -84,7 +83,7 @@ function TopBar({
             href="/mundi"
             aria-label="Mundi logo"
             className={`block  px-2.5 py-1.5  ${
-              bgColor === "bg-bgold" ? "bg-bwhite" : "opacity-50 "
+              bgColor === "bg-bgold-2" ? "bg-bwhite" : "opacity-50 "
             }`}
           >
             <Image

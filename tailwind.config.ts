@@ -63,6 +63,7 @@ export default {
       "bblue": "#OCB92E",
       "byellow": "#FFD72E",
       "bgold": "#CFC07F",
+      "bgold-2": "#CDC6C2",
       "gray-1": "#2D2D2C",
     },
     fontFamily: {
