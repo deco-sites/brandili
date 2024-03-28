@@ -9,7 +9,7 @@
  * no JavaScript is shipped to the browser!
  */
 
-import ProductCard from "../../components/product/ProductCard.tsx";
+import ProductCardSearchBar from "../../components/product/ProductCardSearchBar.tsx";
 import Button from "../../components/ui/Button.tsx";
 import Icon from "../../components/ui/Icon.tsx";
 import Slider from "../../components/ui/Slider.tsx";
@@ -74,7 +74,7 @@ function Searchbar({
     hasTerms,
     "inputValue",
     inputValue,
-    inputValue?.length
+    inputValue?.length,
   );
 
   useEffect(() => {
@@ -96,11 +96,9 @@ function Searchbar({
           for={id}
           tabIndex={-1}
         >
-          {loading.value ? (
-            <span class="loading loading-spinner loading-xs" />
-          ) : (
-            <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />
-          )}
+          {loading.value
+            ? <span class="loading loading-spinner loading-xs" />
+            : <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />}
         </Button>
         <input
           ref={searchInputRef}
@@ -131,13 +129,17 @@ function Searchbar({
           type="button"
           class="join-item btn-ghost btn-square hidden sm:inline-flex"
           onClick={() => {
-            const input = document.querySelector("#search-input") as HTMLInputElement;
+            const input = document.querySelector(
+              "#search-input",
+            ) as HTMLInputElement;
             input.value = "";
-            document.querySelector("#intelSearch-list")?.classList.add("hidden");
+            document.querySelector("#intelSearch-list")?.classList.add(
+              "hidden",
+            );
           }}
           ariaLabel={displaySearchPopup.value ? "open search" : "search closed"}
         >
-          <Icon id="XMark" size={24} strokeWidth={2} />
+          <Icon id="XMark" size={20} strokeWidth={2} />
         </Button>
       </form>
 
@@ -145,8 +147,8 @@ function Searchbar({
         id="intelSearch-list"
         class={`overflow-y-scroll absolute top-24 ${
           (!hasProducts && !hasTerms && !inputValue.length) ||
-          (!inputValue.length && hasProducts) ||
-          (!inputValue.length && hasTerms)
+            (!inputValue.length && hasProducts) ||
+            (!inputValue.length && hasTerms)
             ? "hidden"
             : ""
         }`}
@@ -173,15 +175,14 @@ function Searchbar({
             <span class="font-medium text-xl" role="heading" aria-level={3}>
               Produtos sugeridos
             </span>
-            <Slider class="carousel">
+            <Slider class="carousel flex-col">
               {products.map((product, index) => (
                 <Slider.Item
                   index={index}
-                  class=" first:ml-4 last:mr-4 min-w-[200px] max-w-[200px]"
+                  class="ml-2 min-w-[300px] max-w-[300px]"
                 >
-                  <ProductCard
+                  <ProductCardSearchBar
                     product={product}
-                    platform={platform}
                     index={index}
                     itemListName="Suggeestions"
                   />
